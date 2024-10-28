@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register User - {{ version }}</title>
+    <script>
+        function showAlert(message, redirectUrl) {
+            alert(message);
+            window.location.href = redirectUrl;
+        }
+    </script>
+</head>
+<body>
+    <h1>Register User ({{ version }})</h1>
+    <form id="registerForm" action="/register" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">Register</button>
+    </form>
+
+    <script>
+        // Handle form submission
+        document.getElementById('registerForm').onsubmit = function(event) {
+            event.preventDefault(); // Prevent the default form submission
+            const formData = new FormData(this);
+            
+            fetch(this.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    showAlert(data.message, '/'); // Show alert and redirect to index
+                } else if (data.error) {
+                    showAlert(data.error, '/register'); // Show error alert and stay on the page
+                }
+            })
+            .catch(error => {
+                showAlert('An error occurred. Please try again.', '/register'); // Error handling
+            });
+        };
+    </script>
+</body>
+</html>
