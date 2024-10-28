@@ -1,5 +1,8 @@
 flask
+flask_bcrypt
+Flask-migrate
 flask-SQLAlchemy
 flask-Security
 werkzeug
 bcrypt
+argon2_cffi
